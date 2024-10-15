@@ -6,7 +6,7 @@ interface Todo {
     completed: boolean;
 }
 
-const TodoApp: React.FC = () => {
+const TodosList: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [newTodo, setNewTodo] = useState<string>("");
     const [filter, setFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
@@ -73,7 +73,7 @@ const TodoApp: React.FC = () => {
                             </label>
                             <p style={{textDecoration: todo.completed ? 'line-through' : 'none'}}>{todo.text}</p>
                         </div>
-                        <button className="delete_button" onClick={() => deleteTodo(todo.id)}/>
+                        <button className="delete_button" aria-label="Delete Task" onClick={() => deleteTodo(todo.id)}/>
                     </li>
                 ))}
             </ul>
@@ -93,4 +93,4 @@ const TodoApp: React.FC = () => {
     );
 };
 
-export default TodoApp;
+export default TodosList;

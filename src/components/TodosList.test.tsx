@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { act } from 'react';
 import TodosList from './TodosList';
 
 describe('TodosList', () => {
@@ -22,8 +23,10 @@ describe('TodosList', () => {
         fireEvent.change(input, { target: { value: 'Learn React' } });
         fireEvent.click(addButton);
 
-        const checkbox = screen.getByLabelText('');
-        fireEvent.click(checkbox);
+        const checkbox = screen.getByRole('checkbox');
+        act(() => {
+            fireEvent.click(checkbox);
+        });
 
         expect(screen.getByText('Learn React')).toHaveStyle('text-decoration: line-through');
     });
@@ -36,7 +39,7 @@ describe('TodosList', () => {
         fireEvent.change(input, { target: { value: 'Go for a walk' } });
         fireEvent.click(addButton);
 
-        const deleteButton = screen.getByRole('button', { name: '' });
+        const deleteButton = screen.getByRole('button', { name: 'Delete Task' });
         fireEvent.click(deleteButton);
 
         expect(screen.queryByText('Go for a walk')).not.toBeInTheDocument();
@@ -47,11 +50,12 @@ describe('TodosList', () => {
         const input = screen.getByPlaceholderText('What is your main goal for today?');
         const addButton = screen.getByText('Add Task');
 
-        // Add a completed task
         fireEvent.change(input, { target: { value: 'Task 1' } });
         fireEvent.click(addButton);
-        const checkbox1 = screen.getByLabelText('');
-        fireEvent.click(checkbox1);  // Complete it
+        const checkbox1 = screen.getByRole('checkbox');
+        act(() => {
+            fireEvent.click(checkbox1);
+        });
 
         fireEvent.change(input, { target: { value: 'Task 2' } });
         fireEvent.click(addButton);
